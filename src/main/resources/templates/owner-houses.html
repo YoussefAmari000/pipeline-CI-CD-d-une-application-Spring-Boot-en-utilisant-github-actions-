@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Vos Maisons</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .house-img {
+            width: 100px;
+            height: auto;
+        }
+        .btn {
+            color: #fff;
+            text-decoration: none;
+            background-color: #28a745;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 5px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .btn:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+        }
+        .profile-img {
+            max-width: 150px;
+            border-radius: 50%;
+        }
+        .message-section {
+            margin-top: 30px;
+        }
+        .message-section h2 {
+            margin-bottom: 15px;
+        }
+        .message {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            background-color: #fff;
+        }
+        .reply-form {
+            margin-top: 10px;
+        }
+        .reply-form textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Liste de vos maisons</h1>
+            <a href="/owner/logout" class="btn">Déconnexion</a>
+        </header>
+        <div>
+            <a href="/owner/add-house" class="btn">Ajouter une nouvelle maison</a>
+            <form th:action="@{/owner/update-profile-picture}" method="post" enctype="multipart/form-data">
+                <label for="profilePicture">Update Profile Picture:</label>
+                <input type="file" name="profilePicture" id="profilePicture">
+                <button type="submit" class="btn">Upload</button>
+            </form>
+            <img th:if="${owner.profilePicture}" th:src="@{'/images/' + ${owner.profilePicture}}" alt="Profile Picture" class="profile-img">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Image</th>
+                        <th>Adresse</th>
+                        <th>Description</th>
+                        <th>Prix</th>
+                        <th>Nombre de chambres</th>
+                        <th>Surface (en m²)</th>
+                        <th>Ville</th>
+                        <th>Disponibilité</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody th:each="house : ${houses}">
+                    <tr>
+                        <td th:text="${house.id}"></td>
+                        <td><img th:if="${house.image}" th:src="@{'/images/' + ${house.image}}" alt="Image de la maison" class="house-img"/></td>
+                        <td th:text="${house.address}"></td>
+                        <td th:text="${house.description}"></td>
+                        <td th:text="${house.price}"></td>
+                        <td th:text="${house.bedrooms}"></td>
+                        <td th:text="${house.surface}"></td>
+                        <td th:text="${house.city}"></td>
+                        <td th:text="${house.isAvailable ? 'Oui' : 'Non'}"></td>
+                        <td>
+                            <a th:href="@{/owner/edit-house/{id}(id=${house.id})}">Éditer</a> |
+                            <a th:href="@{/owner/delete-house/{id}(id=${house.id})}" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette maison?');">Supprimer</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="message-section">
+            <h2>Messages</h2>
+            <div th:each="message : ${messages}">
+                <div class="message">
+                    <p><strong>From:</strong> <span th:text="${message.sender.username}"></span></p>
+                    <p><strong>Message:</strong> <span th:text="${message.content}"></span></p>
+                    <p><strong>Reply:</strong> <span th:text="${message.reply}">No reply yet</span></p>
+                    <form th:action="@{/owner/reply-message}" method="post" class="reply-form">
+                        <input type="hidden" name="messageId" th:value="${message.id}">
+                        <textarea name="reply" rows="2" placeholder="Enter your reply here"></textarea>
+                        <button type="submit" class="btn">Send Reply</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

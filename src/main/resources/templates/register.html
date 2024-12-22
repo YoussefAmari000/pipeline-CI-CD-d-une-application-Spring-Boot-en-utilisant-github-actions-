@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Register</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="tel"],
+        select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        
+        button[type="submit"],
+        .oauth-btn {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: calc(100% - 20px);
+            margin-bottom: 10px;
+        }
+        
+        button[type="submit"]:hover,
+        .oauth-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <form th:action="@{/user/register}" th:object="${user}" method="post">
+        <input type="text" th:field="*{username}" placeholder="Username" required>
+        <input type="email" th:field="*{email}" placeholder="Email" required>
+        <input type="password" th:field="*{password}" placeholder="Password" required>
+        <input type="tel" th:field="*{phone}" placeholder="Phone Number" required>
+        <select th:field="*{role}">
+            <option value="USER">User</option>
+            <option value="OWNER">Owner</option>
+            <option value="ADMIN">Admin</option>
+        </select>
+        <button type="submit">Register</button>
+    </form>
+</body>
+</html>

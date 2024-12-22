@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Liste des Maisons</title>
+</head>
+<body>
+    <h1>Liste des Maisons</h1>
+    <div>
+        <a th:href="@{/owner/add-house}">Ajouter une nouvelle maison</a>
+        <table>
+            <thead>
+                <tr>
+                    <th>Adresse</th>
+                    <th>Description</th>
+                    <th>Prix</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="house : ${houses}">
+                    <td th:text="${house.address}">Adresse</td>
+                    <td th:text="${house.description}">Description</td>
+                    <td th:text="${house.price}">Prix</td>
+                    <td>
+                        <a th:href="@{/owner/edit-house/{id}(id=${house.id})}">Modifier</a>
+                        <a th:href="@{/owner/delete-house/{id}(id=${house.id})}" th:onclick="'return confirm(\'Êtes-vous sûr de vouloir supprimer cette maison ?\');'">Supprimer</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Evaluate House</title>
+</head>
+<body>
+    <h1>Evaluate House</h1>
+    <form th:action="@{/user/evaluate/{houseId}(houseId=${house.id})}" th:object="${evaluation}" method="post">
+        <label for="rating">Rating:</label>
+        <input type="number" id="rating" name="rating" th:field="*{rating}" min="1" max="5" required />
+
+        <label for="comment">Comment:</label>
+        <textarea id="comment" name="comment" th:field="*{comment}" required></textarea>
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Owner Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .dashboard-section {
+            margin-bottom: 20px;
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .dashboard-section h2 {
+            margin-bottom: 15px;
+        }
+
+        .message,
+        .house {
+            margin-bottom: 15px;
+        }
+
+        .profile-img {
+            max-width: 150px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Owner Dashboard</h1>
+        
+        <div class="dashboard-section">
+            <h2>Your Information</h2>
+            <img th:if="${owner.profilePicture}" th:src="@{'/images/' + ${owner.profilePicture}}" alt="Profile Picture" class="profile-img">
+            <p><strong>Username:</strong> <span th:text="${owner.username}">Owner Name</span></p>
+            <p><strong>Phone:</strong> <span th:text="${owner.phone}">000-000-0000</span></p>
+            <p><strong>Email:</strong> <span th:text="${owner.email}">email@example.com</span></p>
+        </div>
+        
+        <!-- Vous pouvez ajouter ici d'autres sections pour les messages des clients et les consultations des maisons -->
+        
+    </div>
+</body>
+</html>
+s

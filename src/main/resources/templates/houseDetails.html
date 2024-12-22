@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>House Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .house-img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        strong {
+            font-weight: bold;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .comments-section,
+        .contact-form,
+        .comment-form {
+            margin-top: 20px;
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .comments-section h2,
+        .contact-form h2,
+        .comment-form h2 {
+            margin-bottom: 15px;
+        }
+
+        .comment,
+        .contact {
+            margin-bottom: 15px;
+        }
+
+        textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: vertical;
+        }
+
+        input[type="number"],
+        button[type="submit"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .btn {
+            background-color: #28a745;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 th:text="${house.address}"></h1>
+        <img th:if="${house.image}" th:src="@{'/images/' + ${house.image}}" alt="House Image" class="house-img"/>
+        <p><strong>Description:</strong> <span th:text="${house.description}"></span></p>
+        <p><strong>Price:</strong> <span th:text="${house.price}"></span></p>
+        <p><strong>Nombre de chambres:</strong> <span th:text="${house.bedrooms}"></span></p>
+        <p><strong>Surface (en m²):</strong> <span th:text="${house.surface}"></span></p>
+        <p><strong>Ville:</strong> <span th:text="${house.city}"></span></p>
+        <p><strong>Owner:</strong> <span th:text="${house.owner.username}"></span></p>
+        <p><strong>Availability:</strong> <span th:text="${house.isAvailable ? 'Available' : 'Not Available'}"></span></p>
+        <p><strong>Owner's Phone:</strong> <span th:text="${house.owner.phone}"></span></p>
+        <p><strong>Owner's Email:</strong> <span th:text="${house.owner.email}"></span></p>
+
+        <div class="comments-section">
+            <h2>Comments</h2>
+            <div th:each="comment : ${comments}">
+                <div class="comment">
+                    <p><strong th:text="${comment.user.username}">User Name</strong></p>
+                    <p th:text="${comment.comment}">Comment text goes here</p>
+                    <p><strong>Rating:</strong>
+                        <span th:each="star, iterStat : ${#numbers.sequence(1, comment.rating)}">★</span>
+                        <span th:each="star, iterStat : ${#numbers.sequence(comment.rating + 1, 5)}">☆</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="comment-form">
+            <h2>Leave a Comment</h2>
+            <form th:action="@{'/house/' + ${house.id} + '/comment'}" method="post">
+                <textarea name="comment" rows="4" placeholder="Enter your comment"></textarea>
+                <input type="number" name="rating" min="1" max="5" placeholder="Enter your rating (1-5)">
+                <button type="submit">Submit Comment</button>
+            </form>
+        </div>
+
+        <div class="contact-form">
+            <h2>Contact Owner</h2>
+            <form th:action="@{'/house/' + ${house.id} + '/contact'}" method="post">
+                <textarea name="message" rows="4" placeholder="Enter your message"></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+
+       <a th:href="@{/owner/details(ownerId=${house.owner.id})}" class="btn">View Owner Details</a>
+
+        <a href="/" class="btn">Back to Home</a>
+    </div>
+</body>
+</html>

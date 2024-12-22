@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Welcome to Our Application!</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f9f9f9;
+            color: #333;
+        }
+        header {
+            background: #0044cc;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        a, .btn {
+            color: #fff;
+            text-decoration: none;
+            background-color: #28a745; /* Green */
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 5px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .btn:hover, a:hover {
+            background-color: #218838; /* Darker green */
+            transform: translateY(-2px);
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 30px auto;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+        }
+        .house-img {
+            width: 100px;
+            height: auto;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome !</h1>
+        <p>soyez les bienvenus</p>
+        <a href="/login" class="btn">Login</a> | <a href="/user/register" class="btn">Register</a>
+    </header>
+    <div class="container">
+        <h2>List of Available Houses</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Address</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Owner</th>
+                    <th>Availability</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody th:each="house : ${houses}">
+                <tr>
+                    <td><img th:if="${house.image}" th:src="@{'/images/' + ${house.image}}" alt="House Image" class="house-img"/></td>
+                    <td th:text="${house.address}"></td>
+                    <td th:text="${house.description}"></td>
+                    <td th:text="${house.price}"></td>
+                    <td th:text="${house.owner.username}"></td>
+                    <td th:text="${house.isAvailable ? 'Available' : 'Not Available'}"></td>
+                    <td><a th:href="@{/house/details(houseId=${house.id})}" class="btn">View Details</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

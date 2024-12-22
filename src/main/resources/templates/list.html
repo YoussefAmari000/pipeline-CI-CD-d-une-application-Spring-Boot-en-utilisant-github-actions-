@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>All Houses</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .house-img {
+            width: 100px;
+            height: auto;
+        }
+        .filter-form {
+            margin-bottom: 20px;
+        }
+        .filter-form label {
+            margin-right: 10px;
+        }
+        .filter-form input, .filter-form button {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>All Houses</h1>
+    </div>
+    <div class="container">
+        <form class="filter-form" th:action="@{/houses}" method="get">
+            <label for="price">Max Price:</label>
+            <input type="number" id="price" name="price" step="0.01" th:value="${price}"/>
+            
+            <label for="surface">Min Surface:</label>
+            <input type="number" id="surface" name="surface" step="0.01" th:value="${surface}"/>
+            
+            <label for="city">City:</label>
+            <input type="text" id="city" name="city" th:value="${city}"/>
+            
+            <button type="submit">Filter</button>
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Address</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Owner</th>
+                    <th>Availability</th>
+                </tr>
+            </thead>
+            <tbody th:each="house : ${houses}">
+                <tr>
+                    <td><img th:if="${house.image}" th:src="@{'/images/' + ${house.image}}" alt="House Image" class="house-img" /></td>
+                    <td th:text="${house.address}"></td>
+                    <td th:text="${house.description}"></td>
+                    <td th:text="${house.price}"></td>
+                    <td th:text="${house.owner.username}"></td>
+                    <td th:text="${house.available ? 'Available' : 'Not Available'}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

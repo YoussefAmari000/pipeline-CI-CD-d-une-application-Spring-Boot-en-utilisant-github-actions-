@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .profile-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+        }
+        
+        .profile-details, .actions {
+            margin-bottom: 20px;
+        }
+        
+        .actions a {
+            display: block;
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            text-decoration: none;
+            margin-bottom: 10px;
+        }
+        
+        .actions a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <h1>Admin Profile</h1>
+        <div class="profile-details">
+            <p><strong>Username:</strong> <span th:text="${user.username}"></span></p>
+            <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
+            <p><strong>Role:</strong> <span th:text="${user.role}"></span></p>
+        </div>
+        <div class="actions">
+            <a th:href="@{/admin/users}">Manage Users</a>
+            <a th:href="@{/user/houses}">View All Houses</a>
+            <a th:href="@{/owner/add-house}">Post a House</a>
+        </div>
+    </div>
+</body>
+</html>

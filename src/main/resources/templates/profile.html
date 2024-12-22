@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: relative;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .btn {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            margin: 5px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+        .btn:hover {
+            background-color: #218838;
+        }
+        .btn-logout {
+            background-color: #dc3545;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        .btn-logout:hover {
+            background-color: #c82333;
+        }
+        .btn-all-houses {
+            background-color: #007bff;
+        }
+        .btn-all-houses:hover {
+            background-color: #0056b3;
+        }
+        .user-info {
+            background-color: #e9ecef;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .user-info h3 {
+            margin: 0 0 10px 0;
+        }
+        .message-section {
+            margin-top: 30px;
+        }
+        .message-section h2 {
+            margin-bottom: 15px;
+        }
+        .message {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            background-color: #fff;
+        }
+        .reply-form {
+            margin-top: 10px;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: vertical;
+            margin-bottom: 10px;
+        }
+        button[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>User Profile</h1>
+        <a href="/user/logout" class="btn btn-logout">Logout</a>
+    </div>
+    <div class="container">
+        <div class="user-info">
+            <h3>User Information</h3>
+            <p><strong>Username:</strong> <span th:text="${user.username}"></span></p>
+            <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
+            <p><strong>Role:</strong> <span th:text="${user.role}"></span></p>
+        </div>
+        <a href="/user/houses" class="btn btn-all-houses">View All Houses</a>
+        <div class="message-section">
+            <h2>Received Messages</h2>
+            <div th:each="message : ${receivedMessages}">
+                <div class="message">
+                    <p><strong>From:</strong> <span th:text="${message.sender.username}"></span></p>
+                    <p><strong>Message:</strong> <span th:text="${message.content}"></span></p>
+                    <p><strong>Reply:</strong> <span th:text="${message.reply}">No reply yet</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="message-section">
+            <h2>Sent Messages</h2>
+            <div th:each="message : ${sentMessages}">
+                <div class="message">
+                    <p><strong>To:</strong> <span th:text="${message.recipient.username}"></span></p>
+                    <p><strong>Message:</strong> <span th:text="${message.content}"></span></p>
+                    <p><strong>Reply:</strong> <span th:text="${message.reply}">No reply yet</span></p>
+                    <div class="reply-form">
+                        <form th:action="@{/user/reply-owner}" method="post">
+                            <input type="hidden" name="messageId" th:value="${message.id}">
+                            <textarea name="reply" rows="2" placeholder="Enter your reply here"></textarea>
+                            <button type="submit" class="btn">Send Reply</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
