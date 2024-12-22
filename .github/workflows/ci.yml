@@ -20,7 +20,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: "17" # Utilise JDK 17
-          distribution: "openjdk" # Utilise la distribution OpenJDK, qui est largement supportée
+          distribution: "temurin" # Utilise la distribution Temurin (anciennement AdoptOpenJDK)
 
       - name: Cache Maven dependencies
         uses: actions/cache@v3
