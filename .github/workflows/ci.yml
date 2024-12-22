@@ -20,7 +20,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: "17" # Utilise JDK 17
-          distribution: "adoptopenjdk"
+          distribution: "adoptium" # Utilise la distribution correcte pour AdoptOpenJDK, maintenant Adoptium
 
       - name: Cache Maven dependencies
         uses: actions/cache@v3
@@ -31,4 +31,4 @@ jobs:
             ${{ runner.os }}-maven-
 
       - name: Build with Maven
-        run: mvn clean install -DskipTests # Exécute le build Maven
+        run: mvn clean install -DskipTests # Exécute le build Maven sans tests
